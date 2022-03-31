@@ -3,8 +3,11 @@ import {
   FC,
   FormEventHandler,
   useMemo,
-  useState
+  useState,
 } from "react";
+
+import InputForm from "./FolderSelect";
+
 import { Form, useFormValidation } from "reactjs-forms";
 import MyFormControl from "./MyFormControl";
 import MyFormSelect from "./MyFormSelect";
@@ -13,28 +16,32 @@ import {
   ExtendedHTMLFormElement,
   ExtendedHTMLSelectElement
 } from "reactjs-forms/types";
-import countries from "./countries";
+import testers from "./testers";
 import "./styles.css";
 import { LexiaProps } from "./Lexia";
+import DatePicker from 'react-date-picker';
 
 type SignProps = {
   lexia: LexiaProps;
 };
 const Sign: FC<SignProps> = ({ lexia }) => {
-  const [testerName, setTester] = useState("");
+  const [tester, setTester] = useState("");
   const [Station, setStation] = useState("");
   const [dateTested, setTestDate] = useState("");
   const [reportsNeeded, setReports] = useState("");
   const [saveLocation, setSaveLocation] = useState("");
 
+  
+  const [value, onChange] = useState(new Date());
+
 
   const validation = useFormValidation();
 
-  const countryList = useMemo(
+  const testerList = useMemo(
     () =>
-      countries.map((country) => (
-        <option key={country.code} value={country.code}>
-          {country.name}
+      testers.map((tester) => (
+        <option key={tester.code} value={tester.code}>
+          {tester.name}
         </option>
       )),
     []
@@ -45,19 +52,19 @@ const Sign: FC<SignProps> = ({ lexia }) => {
   > = (e) => {
     const { id, value } = e.target;
     switch (id) {
-      case "setTester":
+      case "tester":
         setTester(value);
         break;
-      case "setStation":
+      case "station":
         setStation(value);
         break;
-      case "testDate":
+      case "date":
         setTestDate(value);
         break;
-      case "reportsNeeded":
+      case "report":
         setReports(value);
         break;
-      case "saveLocation":
+      case "location":
         setSaveLocation(value);
         break;
     }
@@ -89,73 +96,64 @@ const Sign: FC<SignProps> = ({ lexia }) => {
           Tester Name
           <MyFormSelect
             className="control"
-            identity="testerName"
-            id="testerName"
+            identity="tester"
+            id="tester"
             onChange={changeHandler}
-            value={testerName}
+            value={tester}
             validation={{
               required: true
             }}
-          >
-            <option value="">{lexia.placeholders["testerName"]}</option>
-            {countryList}
+            >
+            <option value="">{lexia.placeholders["tester"]}</option>
+            {testerList}
           </MyFormSelect>
         </div>
+
+
         <div className="control-wrapper half">
-          <MyFormControl
-            type="text"
-            className="control"
-            placeholder={lexia.placeholders["fistName"]}
-            identity="firstname"
-            id="firstname"
-            onChange={changeHandler}
-            value={"bruh"}
-            validation={{
-              required: true,
-              isName: true
-            }}
-          />
-          <MyFormControl
-            type="text"
-            className="control"
-            placeholder={lexia.placeholders["lastName"]}
-            identity="lastname"
-            id="lastname"
-            onChange={changeHandler}
-            value={"bruh"}
-            validation={{
-              required: true,
-              isName: true
-            }}
-          />
-        </div>
-        <div className="control-wrapper half">
-          <MyFormControl
-            type="password"
-            id="password"
-            className="control"
-            placeholder={lexia.placeholders["password"]}
-            identity="password"
-            onChange={changeHandler}
-            value={"bruh"}
-            validation={{
-              required: true,
-              isAlphaNumeric: true,
-              minLen: 8
-            }}
-          />
-          <MyFormControl
-            type="password"
-            className="control"
-            placeholder={lexia.placeholders["passwordRepeat"]}
-            identity="passwordRepeat"
-            id="passwordRepeat"
-            onChange={changeHandler}
-            value={"bruh"}
-            customValidation={{
-              isEqulPasswords: isEqulPasswords("bruh")
-            }}
-          />
+          Date Tested
+
+          <div>
+            <DatePicker onChange={onChange} value={value} />
+          </div>
+
+          <div className="topping">
+            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />Petro Tite Line Report
+          </div>
+          <div className="topping">
+            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />ELLD/MLLD
+          </div>
+          <div className="topping">
+            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />Annual Dispensers
+          </div>
+          <div className="topping">
+            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />Annual STP
+          </div>
+          <div className="topping">
+            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />PV Valve
+          </div>
+          <div className="topping">
+            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />ATGProbe Annual Comp.
+          </div>
+          <div className="topping">
+            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />STP Sump Testing
+          </div>
+          <div className="topping">
+            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />Spill Bucket Testing
+          </div>
+          <div className="topping">
+            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />30 Day Spill Bucket
+          </div>
+          <div className="topping">
+            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />Monthly Inspection
+          </div>
+
+          <div>
+            Select Destination:
+          </div>
+          <InputForm></InputForm>
+          <div></div>
+          
         </div>
         
         <div className="control-wrapper">
