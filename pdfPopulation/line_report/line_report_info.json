@@ -1,0 +1,81 @@
+{
+    "name": "Line Report Customer Info",
+    "type": "json",
+    "path": "bruh",
+    "locations": [
+        {
+            "locationName" : "Fast Break 14", 
+            "testingReason" : "Annual Compliance",
+            "requestedBy" : "Embark Energy",
+            "specialInstructions" : "Created by USForm",
+            "address" : "1702 North Main Street Taylor, Texas",
+            "date" : null,
+            "facilityNumber" : 69420,
+            "text_8vffk" : "USFORM",
+            "gasBrand" : "Unbranded",
+            "testerName" : null,
+            "ldTest" : "Yes",
+            "leakDetectors" : "Yes",
+            "pumpType" : "Yes",
+            "dispensersNum" : 4,
+            "linesNum" : 3,
+            "date2" : null
+        },
+        {
+            "locationName" : "Walnut Market", 
+            "testingReason" : "Annual Compliance",
+            "requestedBy" : "AM Petroleum",
+            "specialInstructions" : "Created by USForm",
+            "address" : "1900 East Anderson Lane Austin, Texas",
+            "date" : null,
+            "facilityNumber" : 69696,
+            "text_8vffk" : "USFORM",
+            "gasBrand" : "Exxon",
+            "testerName" : null,
+            "ldTest" : "Yes",
+            "leakDetectors" : "Yes",
+            "pumpType" : "Yes",
+            "dispensersNum" : 4,
+            "linesNum" : 3,
+            "date2" : null
+        },
+        {
+            "locationName" : "QUICK-N-SAVE", 
+            "testingReason" : "Annual Compliance",
+            "requestedBy" : "AM Petroleum",
+            "specialInstructions" : "Created by USForm",
+            "address" : "1002 Pace Bend Rd S",
+            "date" : null,
+            "facilityNumber" : 10972,
+            "text_8vffk" : "USFORM",
+            "gasBrand" : "Exxon",
+            "testerName" : null,
+            "ldTest" : "Yes",
+            "leakDetectors" : "Yes",
+            "pumpType" : "Yes",
+            "dispensersNum" : 4,
+            "linesNum" : 3,
+            "date2" : null
+        },
+        {
+            "locationName" : "MUSTANG FOOD MART", 
+            "testingReason" : "Annual Compliance",
+            "requestedBy" : "AM Petroleum",
+            "specialInstructions" : "Created by USForm",
+            "address" : "10050 U.S. 183, Austin",
+            "date" : null,
+            "facilityNumber" : 25034,
+            "text_8vffk" : "USFORM",
+            "gasBrand" : "Exxon",
+            "testerName" : null,
+            "ldTest" : "Yes",
+            "leakDetectors" : "Yes",
+            "pumpType" : "Yes",
+            "dispensersNum" : 4,
+            "linesNum" : 3,
+            "date2" : null
+        }
+    ]
+}
+
+

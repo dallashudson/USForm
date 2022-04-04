@@ -17,6 +17,7 @@ import {
   ExtendedHTMLSelectElement
 } from "reactjs-forms/types";
 import testers from "./testers";
+import stations from "./stations";
 import "./styles.css";
 import { LexiaProps } from "./Lexia";
 import DatePicker from 'react-date-picker';
@@ -26,10 +27,25 @@ type SignProps = {
 };
 const Sign: FC<SignProps> = ({ lexia }) => {
   const [tester, setTester] = useState("");
-  const [Station, setStation] = useState("");
+  const [station, setStation] = useState("");
   const [dateTested, setTestDate] = useState("");
   const [reportsNeeded, setReports] = useState("");
   const [saveLocation, setSaveLocation] = useState("");
+
+
+  function postData(input: string) {
+    $.ajax({
+        type: "POST",
+        url: "./pdfPopulation/line_report/lineReportParser.py",
+        data: { param: input },
+        success: callbackFunc
+    });
+  }
+
+  function callbackFunc(response: any) {
+      // do something with the response
+      console.log(response);
+  }
 
   
   const [value, onChange] = useState(new Date());
@@ -42,6 +58,15 @@ const Sign: FC<SignProps> = ({ lexia }) => {
       testers.map((tester) => (
         <option key={tester.code} value={tester.code}>
           {tester.name}
+        </option>
+      )),
+    []
+  );
+  const locationList = useMemo(
+    () =>
+      stations.map((station) => (
+        <option key={station.name} value={station.name}>
+          {station.address} {station.fac} {station.name}
         </option>
       )),
     []
@@ -72,9 +97,32 @@ const Sign: FC<SignProps> = ({ lexia }) => {
 
   const submitHandler: FormEventHandler<ExtendedHTMLFormElement> = (e) => {
     e.preventDefault();
-    const { isValid } = validation();
+    const target = e.target;
 
-    if (isValid) alert("Registration was succeeded!");
+
+    if (document.querySelector('[name="petroline"]:checked')) {
+      alert("FUCK");
+      $.ajax({
+                type: 'POST',
+                url: "pdfPopulation/line_report/lineReportParser.py",
+                data: JSON.stringify( {  from_date: from_date, 
+
+                  to_date: to_date,
+                              
+                  customer: customer}
+                  );
+                 //passing some input here
+                dataType: "text",
+                success: function(response){
+                  const output = response;
+                  alert(output);
+                }
+        }).done(function(data){
+            console.log(data);
+            alert(data);
+        });
+
+    }
   };
 
   type TypeIsEqulPasswords = (password: string) => CustomValidator;
@@ -87,6 +135,10 @@ const Sign: FC<SignProps> = ({ lexia }) => {
       };
     };
   };
+
+ 
+
+  
 
   return (
     <div className="box">
@@ -108,6 +160,22 @@ const Sign: FC<SignProps> = ({ lexia }) => {
             {testerList}
           </MyFormSelect>
         </div>
+        <div className="control-wrapper">
+          Station
+          <MyFormSelect
+            className="control"
+            identity="station"
+            id="station"
+            onChange={changeHandler}
+            value={station}
+            validation={{
+              required: true
+            }}
+            >
+            <option value="">{lexia.placeholders["station"]}</option>
+            {locationList}
+          </MyFormSelect>
+        </div>
 
 
         <div className="control-wrapper half">
@@ -118,34 +186,34 @@ const Sign: FC<SignProps> = ({ lexia }) => {
           </div>
 
           <div className="topping">
-            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />Petro Tite Line Report
+            <input type="checkbox" id="petroline" name="petroline" value="yes" />Petro Tite Line Report
           </div>
           <div className="topping">
-            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />ELLD/MLLD
+            <input type="checkbox" id="lld" name="lld" value="yes" />ELLD/MLLD
           </div>
           <div className="topping">
-            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />Annual Dispensers
+            <input type="checkbox" id="annualdisp" name="annualdisp" value="yes" />Annual Dispensers
           </div>
           <div className="topping">
-            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />Annual STP
+            <input type="checkbox" id="annualstp" name="annualstp" value="yes" />Annual STP
           </div>
           <div className="topping">
-            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />PV Valve
+            <input type="checkbox" id="pvvalve" name="pvvalve" value="yes" />PV Valve
           </div>
           <div className="topping">
-            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />ATGProbe Annual Comp.
+            <input type="checkbox" id="atgprobe" name="atgprobe" value="yes" />ATGProbe Annual Comp.
           </div>
           <div className="topping">
-            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />STP Sump Testing
+            <input type="checkbox" id="stpsump" name="stpsump" value="yes" />STP Sump Testing
           </div>
           <div className="topping">
-            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />Spill Bucket Testing
+            <input type="checkbox" id="spillbucket" name="spillbucket" value="yes" />Spill Bucket Testing
           </div>
           <div className="topping">
-            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />30 Day Spill Bucket
+            <input type="checkbox" id="thirtydayspill" name="thirtydayspill" value="yes" />30 Day Spill Bucket
           </div>
           <div className="topping">
-            <input type="checkbox" id="line_report" name="line_report" value="Petro Tite Line Report" />Monthly Inspection
+            <input type="checkbox" id="monthly" name="monthly" value="yes" />Monthly Inspection
           </div>
 
           <div>
