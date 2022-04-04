@@ -22,38 +22,27 @@ import "./styles.css";
 import { LexiaProps } from "./Lexia";
 import DatePicker from 'react-date-picker';
 
-type SignProps = {
-  lexia: LexiaProps;
-};
-const Sign: FC<SignProps> = ({ lexia }) => {
-  const [tester, setTester] = useState("");
-  const [station, setStation] = useState("");
-  const [dateTested, setTestDate] = useState("");
-  const [reportsNeeded, setReports] = useState("");
-  const [saveLocation, setSaveLocation] = useState("");
+SignProps = new LexiaProps;
 
+class USForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
 
-  function postData(input: string) {
-    $.ajax({
-        type: "POST",
-        url: "./pdfPopulation/line_report/lineReportParser.py",
-        data: { param: input },
-        success: callbackFunc
-    });
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  function callbackFunc(response: any) {
-      // do something with the response
-      console.log(response);
+  handleChange(event) {
+    this.setState({value: event.target.value});
   }
 
-  
-  const [value, onChange] = useState(new Date());
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.value);
+    event.preventDefault();
+  }
 
-
-  const validation = useFormValidation();
-
-  const testerList = useMemo(
+  testerList = useMemo(
     () =>
       testers.map((tester) => (
         <option key={tester.code} value={tester.code}>
@@ -62,7 +51,8 @@ const Sign: FC<SignProps> = ({ lexia }) => {
       )),
     []
   );
-  const locationList = useMemo(
+
+  locationList = useMemo(
     () =>
       stations.map((station) => (
         <option key={station.name} value={station.name}>
@@ -72,32 +62,8 @@ const Sign: FC<SignProps> = ({ lexia }) => {
     []
   );
 
-  const changeHandler: ChangeEventHandler<
-    HTMLInputElement | ExtendedHTMLSelectElement
-  > = (e) => {
-    const { id, value } = e.target;
-    switch (id) {
-      case "tester":
-        setTester(value);
-        break;
-      case "station":
-        setStation(value);
-        break;
-      case "date":
-        setTestDate(value);
-        break;
-      case "report":
-        setReports(value);
-        break;
-      case "location":
-        setSaveLocation(value);
-        break;
-    }
-  };
 
-  const submitHandler: FormEventHandler<ExtendedHTMLFormElement> = (e) => {
-    e.preventDefault();
-    const target = e.target;
+
 
 
     if (document.querySelector('[name="petroline"]:checked')) {
@@ -105,12 +71,7 @@ const Sign: FC<SignProps> = ({ lexia }) => {
       $.ajax({
                 type: 'POST',
                 url: "pdfPopulation/line_report/lineReportParser.py",
-                data: JSON.stringify( {  from_date: from_date, 
-
-                  to_date: to_date,
-                              
-                  customer: customer}
-                  );
+                data: JSON.stringify( {  facNumber:fac, tester:tester, date:date});
                  //passing some input here
                 dataType: "text",
                 success: function(response){
@@ -123,18 +84,8 @@ const Sign: FC<SignProps> = ({ lexia }) => {
         });
 
     }
-  };
+  
 
-  type TypeIsEqulPasswords = (password: string) => CustomValidator;
-
-  const isEqulPasswords: TypeIsEqulPasswords = (password) => {
-    return function (value, identity) {
-      return {
-        msg: "passwords didn't match",
-        result: password === value
-      };
-    };
-  };
 
  
 
@@ -232,4 +183,4 @@ const Sign: FC<SignProps> = ({ lexia }) => {
   );
 };
 
-export default Sign;
+export default USForm;
